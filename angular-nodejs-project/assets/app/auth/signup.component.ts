@@ -29,4 +29,5 @@ export class SignupComponent implements OnInit {
       console.log(this.myForm);
       this.myForm.reset();
     }
+}
 
