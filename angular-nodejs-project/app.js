@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 var appRoutes = require('./routes/app');
+const messageRoutes = require('./routes/messages');
 
 var app = express();
 // connect database to server
@@ -31,7 +32,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-
+app.use('/message', messageRoutes);
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler
