@@ -32,7 +32,7 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-app.use('/message', messageRoutes);
+app.use('/message', messageRoutes); // this needs to come before app.use('/', etc ow the / would fire every time
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler
