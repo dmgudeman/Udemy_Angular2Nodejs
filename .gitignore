@@ -1,0 +1,7 @@
+0[0-9]*
+
+*/node_modules
+/.idea
+/typings
+/public/js/
+npm-debug.log

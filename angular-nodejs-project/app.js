@@ -1,20 +1,20 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('serve-favicon');
+var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
+var bodyParser   = require('body-parser');
+var mongoose     = require('mongoose');
 
-var appRoutes = require('./routes/app');
-const messageRoutes = require('./routes/messages');
+const appRoutes     = require('./routes/app');
+const messageRoutes = require('./routes/messages'); // this has to be before the appRoutes
 
 var app = express();
 // connect database to server
-mongoose.connect('localhost:27017/node-angular');
+mongoose.connect('localhost:27017/node-angular'); // node-angular is the name of the database
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views')); // __dirname collects the absolute path to the working directory
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
