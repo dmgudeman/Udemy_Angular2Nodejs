@@ -27,10 +27,10 @@ export class MessageService {
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post('http://localhost:3000/message', body, {headers: headers})
                    .map((response: Response) => { // the .map method returns an observable
-                       const result = response.json() // .json strips out the headers etc. and returns only the body
-                       const message = new Message(result.msg.content, 'Dummy', result.msg._id, null);
-                       this.messages.push(message);
-                       return message; 
+                    //    const result = response.json() // .json strips out the headers etc. and returns only the body
+                    //    const message = new Message(result.msg.content, 'Dummy', result.msg._id, null);
+                    //    this.messages.push(message);
+                    //    return message; 
                     })          
                    .catch((error) => Observable.throw(error.json())); // .catch does not return an observable so need
                                                                       // explicity instantiate this, the throw makes
@@ -68,6 +68,10 @@ export class MessageService {
     }
     deleteMessage(message: Message) {
         this.messages.splice(this.messages.indexOf(message), 1);
+        return this.http.delete('http://localhost:3000/message/' +  message.messageId)
+                   .map((response: Response) => {
+                       response.json()})          
+                   .catch((error) => Observable.throw(error.json()));
     }
 
 }
