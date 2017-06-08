@@ -23,13 +23,15 @@ export class MessageService {
     ) { }
     
     addMessage(message: Message) {
-        this.messages.push(message);
         const body = JSON.stringify(message);
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post('http://localhost:3000/message', body, {headers: headers})
                    .map((response: Response) => { // the .map method returns an observable
-                       console.log(`in MessageService, addmessage() response   ${JSON.stringify(response)}`);
-                       response.json()})          // .json strips out the headers etc. and returns only the body
+                       const result = response.json() // .json strips out the headers etc. and returns only the body
+                       const message = new Message(result.msg.content, 'Dummy', result.msg._id, null);
+                       this.messages.push(message);
+                       return message; 
+                    })          
                    .catch((error) => Observable.throw(error.json())); // .catch does not return an observable so need
                                                                       // explicity instantiate this, the throw makes
                                                                       // sure this is not returned as a success
@@ -43,7 +45,7 @@ export class MessageService {
                             for (let message of messages) {
                                 transformedMessages.push(new Message(message.content, 
                                                                      'Dummy', 
-                                                                     message.id, 
+                                                                     message._id, 
                                                                      null));
                             }
                             this.messages = transformedMessages;  // This keeps the service in synch with the components
@@ -56,6 +58,14 @@ export class MessageService {
         this.messageIsEdit.emit(message);
     }
 
+    updateMessage(message:Message){
+        const body = JSON.stringify(message);
+        const headers = new Headers({'Content-Type': 'application/json'});
+        return this.http.patch('http://localhost:3000/message/' +  message.messageId, body, {headers})
+                   .map((response: Response) => {
+                       response.json()})          
+                   .catch((error) => Observable.throw(error.json())); // .catch does not return an observable so need
+    }
     deleteMessage(message: Message) {
         this.messages.splice(this.messages.indexOf(message), 1);
     }
