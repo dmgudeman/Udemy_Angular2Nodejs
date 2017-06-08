@@ -68,7 +68,7 @@ router.patch('/:id', function(req, res, next) {
     });
 });
 
-router.delete('/:id', (res, req, next) => {
+router.delete('/:id', (req, res, next) => {
     Message.findById(req.params.id, (err, message) => {
         if(err) {
             return res.status(500).json({
