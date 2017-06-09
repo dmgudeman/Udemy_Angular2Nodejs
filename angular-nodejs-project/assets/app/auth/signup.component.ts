@@ -6,7 +6,7 @@ import {
   FormControl, 
   FormGroup, 
   Validators}            from '@angular/forms';
-import { AuthService }   from './auth.sevice';
+import { AuthService }   from './auth.service';
 import { User}           from './user.model';
 
 @Component({
