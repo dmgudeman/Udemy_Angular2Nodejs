@@ -43,8 +43,6 @@ myForm: FormGroup;
             data => {
                 localStorage.setItem('token', data.token);
                 localStorage.setItem('userId', data.userId);
-                console.log(`userId ${data.userId}`);
-                console.log(`token ${data.token}`);
                 this.router.navigateByUrl('/');
             },
             error => console.log(error)
