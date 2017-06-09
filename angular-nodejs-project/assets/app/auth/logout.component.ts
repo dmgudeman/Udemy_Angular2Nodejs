@@ -22,8 +22,11 @@ export class LogoutComponent implements OnInit {
 
     onLogout() {
         this.authService.logout();
-        this.router.navigate(['/auth', 'signin'])
-        
+        this.router.navigate(['/auth', 'signin']);
+    }
+    
+    isLoggedIn() {
+        return localStorage.getItem('token') !== null;
     }
 
 }
