@@ -7,7 +7,8 @@ var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
 
 const appRoutes     = require('./routes/app');
-const messageRoutes = require('./routes/messages'); // this has to be before the appRoutes
+const messageRoutes = require('./routes/messages'); 
+const userRoutes = require('./routes/user'); 
 
 var app = express();
 // connect database to server
@@ -32,7 +33,8 @@ app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-app.use('/message', messageRoutes); // this needs to come before app.use('/', etc ow the / would fire every time
+app.use('/message', messageRoutes); // this needs to come before 'app.use('/', ...' or the / would fire every time
+app.use('/user', userRoutes); // this needs to come before 'app.use('/', ...' or the / would fire every time
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler

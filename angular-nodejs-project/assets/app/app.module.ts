@@ -7,6 +7,7 @@ import { routing }                 from './app.routing';
 
 import { AppComponent }            from "./app.component";
 import { AuthenticationComponent } from './auth/authentication.component';
+import { AuthService }             from './auth/auth.sevice';
 import { HeaderComponent }         from './header.component';
 import { LogoutComponent }         from './auth/logout.component';
 import { MessageComponent }        from './messages/message.component';
@@ -35,6 +36,9 @@ import { SignupComponent }         from './auth/signup.component';
         HttpModule,
         ReactiveFormsModule,
         routing,
+    ],
+    providers: [
+        AuthService,
     ],
     bootstrap: [AppComponent]
 })

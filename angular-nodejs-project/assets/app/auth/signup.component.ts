@@ -1,7 +1,13 @@
-
-
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators}         from '@angular/forms';
+import { 
+  Component, 
+  OnInit 
+}                         from '@angular/core';
+import { 
+  FormControl, 
+  FormGroup, 
+  Validators}            from '@angular/forms';
+import { AuthService }   from './auth.sevice';
+import { User}           from './user.model';
 
 @Component({
   selector:'app-signup',
@@ -11,7 +17,9 @@ export class SignupComponent implements OnInit {
     myForm: FormGroup;
 
 
-    constructor() { }
+    constructor(
+      private authSevice: AuthService
+    ) { }
 
     ngOnInit() { 
        this.myForm = new FormGroup({
@@ -26,7 +34,17 @@ export class SignupComponent implements OnInit {
     }
 
     onSubmit() {
-      console.log(this.myForm);
+      const user = new User(
+          this.myForm.value.email,
+          this.myForm.value.password,
+          this.myForm.value.firstName,
+          this.myForm.value.lastName,
+      );
+      this.authSevice.signup(user)
+          .subscribe (
+               data => console.log(data),
+               error => console.log(error)
+          );
       this.myForm.reset();
     }
 }
