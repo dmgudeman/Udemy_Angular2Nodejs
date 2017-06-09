@@ -6,16 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var mongoose     = require('mongoose');
 
-const appRoutes     = require('./routes/app');
-const messageRoutes = require('./routes/messages'); 
-const userRoutes = require('./routes/user'); 
+var appRoutes = require('./routes/app');
+var messageRoutes = require('./routes/messages');
+var userRoutes = require('./routes/user');
 
 var app = express();
-// connect database to server
-mongoose.connect('localhost:27017/node-angular'); // node-angular is the name of the database
+mongoose.connect('localhost:27017/node-angular');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views')); // __dirname collects the absolute path to the working directory
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -26,15 +25,15 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// https://www.udemy.com/angular-2-and-nodejs-the-practical-guide/learn/v4/t/lecture/5867016?start=0
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
     next();
 });
-app.use('/message', messageRoutes); // this needs to come before 'app.use('/', ...' or the / would fire every time
-app.use('/user', userRoutes); // this needs to come before 'app.use('/', ...' or the / would fire every time
+
+app.use('/message', messageRoutes);
+app.use('/user', userRoutes);
 app.use('/', appRoutes);
 
 // catch 404 and forward to error handler
