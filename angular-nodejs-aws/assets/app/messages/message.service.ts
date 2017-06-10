@@ -2,7 +2,7 @@ import { Http, Response, Headers } from "@angular/http";
 import { Injectable, EventEmitter } from "@angular/core";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
-
+import { AppGlobals }        from '../app.globals';
 import { Message } from "./message.model";
 import { ErrorService } from "../errors/error.service";
 
@@ -10,6 +10,7 @@ import { ErrorService } from "../errors/error.service";
 export class MessageService {
     private messages: Message[] = [];
     messageIsEdit = new EventEmitter<Message>();
+    URL = AppGlobals.AWS_URL;
 
     constructor(private http: Http, private errorService: ErrorService) {
     }
@@ -20,7 +21,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.post('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/message' + token, body, {headers: headers})
+        return this.http.post(URL + '/message' + token, body, {headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 const message = new Message(
@@ -38,7 +39,7 @@ export class MessageService {
     }
 
     getMessages() {
-        return this.http.get('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/message')
+        return this.http.get(URL + '/message')
             .map((response: Response) => {
                 const messages = response.json().obj;
                 let transformedMessages: Message[] = [];
@@ -69,7 +70,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.patch('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/message/' + message.messageId + token, body, {headers: headers})
+        return this.http.patch(URL + '/message/' + message.messageId + token, body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
@@ -82,7 +83,7 @@ export class MessageService {
         const token = localStorage.getItem('token')
             ? '?token=' + localStorage.getItem('token')
             : '';
-        return this.http.delete('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/message/' + message.messageId + token)
+        return this.http.delete( URL + '/message/' + message.messageId + token)
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());

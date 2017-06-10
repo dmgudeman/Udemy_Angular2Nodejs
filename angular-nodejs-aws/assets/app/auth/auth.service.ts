@@ -3,17 +3,20 @@ import { Http, Headers, Response } from "@angular/http";
 import 'rxjs/Rx';
 import { Observable } from "rxjs";
 
+import { AppGlobals }        from '../app.globals';
 import { User } from "./user.model";
 import { ErrorService } from "../errors/error.service";
 
 @Injectable()
 export class AuthService {
+    URL = AppGlobals.AWS_URL;
+
     constructor(private http: Http, private errorService: ErrorService) {}
 
     signup(user: User) {
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/user', body, {headers: headers})
+        return this.http.post( URL + '/user', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
@@ -24,7 +27,7 @@ export class AuthService {
     signin(user: User) {
         const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('http://angular2deployment-env.us-west-1.elasticbeanstalk.com/user/signin', body, {headers: headers})
+        return this.http.post( URL + '/user/signin', body, {headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => {
                 this.errorService.handleError(error.json());
